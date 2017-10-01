@@ -10351,58 +10351,68 @@ var Carousel_core = function () {
 
         self.slides = ['slide', 'slide', 'slide', 'slide'];
         self.current_index = 0;
-        self.auto_play_interval;
+        self.play_interval;
         self.interval = 2;
 
-        self.auto_play();
+        self.play();
     }
 
     _createClass(Carousel_core, [{
-        key: 'auto_play',
-        value: function auto_play() {
+        key: 'play',
+        value: function play() {
 
             var self = this;
 
-            clearInterval(self.auto_play_interval);
+            clearInterval(self.play_interval);
 
-            self.auto_play_interval = setInterval(function () {
+            self.play_interval = setInterval(function () {
 
-                self.update_current_index();
-
-                (0, _jquery2.default)('#current-slide').text(self.current_index);
-
-                // let item_interval = slides[current_index].settings.autoplay_speed + slides[current_index].settings.duration;
-
-                // if (self.interval != item_interval) {
-                //     run_interval(item_interval);
-                // }
-
-                // show_item({
-                //     element: slides[current_index].element,
-                //     duration: slides[current_index].settings.duration
-                // });
-                // hide_item({
-                //     element: slides[get_prev_index(current_index)].element,
-                //     duration: slides[current_index].settings.duration
-                // });
+                self.go_to('forward');
             }, self.interval * 1000);
         }
     }, {
         key: 'stop',
         value: function stop() {
             var self = this;
+
+            clearInterval(self.play_interval);
         }
     }, {
-        key: 'update_current_index',
-        value: function update_current_index() {
+        key: 'next',
+        value: function next() {
+            var self = this;
+
+            self.go_to('forward');
+        }
+    }, {
+        key: 'prev',
+        value: function prev() {
+            var self = this;
+
+            self.go_to('backward');
+        }
+    }, {
+        key: 'go_to',
+        value: function go_to(direction) {
 
             var self = this;
 
-            if (self.current_index == self.slides.length - 1) {
-                self.current_index = 0;
-            } else {
-                self.current_index++;
+            if (direction == 'forward') {
+
+                if (self.current_index == self.slides.length - 1) {
+                    self.current_index = 0;
+                } else {
+                    self.current_index++;
+                }
+            } else if (direction == 'backward') {
+                if (self.current_index == 0) {
+                    self.current_index = self.slides.length - 1;
+                } else {
+                    self.current_index--;
+                }
             }
+
+            (0, _jquery2.default)('#current-slide').text(self.current_index);
         }
     }]);
 
@@ -10410,6 +10420,22 @@ var Carousel_core = function () {
 }();
 
 var carousel_core = new Carousel_core();
+
+(0, _jquery2.default)('#stop-btn').on('click', function () {
+    carousel_core.stop();
+});
+
+(0, _jquery2.default)('#play-btn').on('click', function () {
+    carousel_core.play();
+});
+
+(0, _jquery2.default)('#next-btn').on('click', function () {
+    carousel_core.next();
+});
+
+(0, _jquery2.default)('#prev-btn').on('click', function () {
+    carousel_core.prev();
+});
 
 /***/ })
 /******/ ]);

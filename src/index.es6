@@ -10,42 +10,23 @@ class Carousel_core {
 
         self.slides = ['slide', 'slide', 'slide', 'slide'];
         self.current_index = 0;
-        self.auto_play_interval;
+        self.play_interval;
         self.interval = 2;
 
-
-        self.auto_play();
+        self.play();
 
     }
 
 
-    auto_play() {
+    play() {
 
         let self = this;
 
-        clearInterval(self.auto_play_interval);
+        clearInterval(self.play_interval);
 
-        self.auto_play_interval = setInterval(function () {
+        self.play_interval = setInterval(() => {
 
-
-            self.update_current_index();
-
-            $('#current-slide').text(self.current_index);
-
-            // let item_interval = slides[current_index].settings.autoplay_speed + slides[current_index].settings.duration;
-
-            // if (self.interval != item_interval) {
-            //     run_interval(item_interval);
-            // }
-
-            // show_item({
-            //     element: slides[current_index].element,
-            //     duration: slides[current_index].settings.duration
-            // });
-            // hide_item({
-            //     element: slides[get_prev_index(current_index)].element,
-            //     duration: slides[current_index].settings.duration
-            // });
+            self.go_to('forward');
 
         }, self.interval * 1000);
     }
@@ -53,26 +34,66 @@ class Carousel_core {
     stop() {
         let self = this;
 
-
-
-
+        clearInterval(self.play_interval);
     }
 
-    update_current_index() {
+    next() {
+        let self = this;
+
+        self.go_to('forward');
+    }
+
+    prev() {
+        let self = this;
+
+        self.go_to('backward');
+    }
+
+    go_to(direction) {
 
         let self = this;
 
-        if (self.current_index == self.slides.length - 1) {
-            self.current_index = 0;
+        if (direction == 'forward') {
+
+            if (self.current_index == self.slides.length - 1) {
+                self.current_index = 0;
+            }
+
+            else {
+                self.current_index++;
+            }
         }
 
-        else {
-            self.current_index++;
+        else if (direction == 'backward') {
+            if (self.current_index == 0) {
+                self.current_index = self.slides.length - 1;
+            }
+
+            else {
+                self.current_index--;
+            }
         }
+
+        $('#current-slide').text(self.current_index);
     }
-
-
 }
 
-
 let carousel_core = new Carousel_core();
+
+
+$('#stop-btn').on('click', () => {
+    carousel_core.stop();
+})
+
+$('#play-btn').on('click', () => {
+    carousel_core.play();
+})
+
+$('#next-btn').on('click', () => {
+    carousel_core.next();
+
+})
+
+$('#prev-btn').on('click', () => {
+    carousel_core.prev();
+})

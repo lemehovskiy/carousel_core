@@ -1,0 +1,22 @@
+{
+  "name": "Carousel_core",
+  "version": "1.0.0",
+  "description": "carousel core",
+  "main": "src/index.js",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "lodash": "^4.17.4",
+    "webpack": "^3.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "carosel core"
+  ],
+  "author": "lemehovskiy",
+  "license": "ISC",
+  "dependencies": {}
+}

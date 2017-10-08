@@ -60,11 +60,158 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jquery = __webpack_require__(1);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// import animatedHeadline from 'animated_headline';
+// import {TweenMax} from "gsap";
+
+var Carousel_core = function () {
+    function Carousel_core(options) {
+        _classCallCheck(this, Carousel_core);
+
+        var self = this;
+
+        self.slides = ['slide', 'slide', 'slide', 'slide'];
+        self.current_index = 0;
+        self.play_interval;
+        self.interval = 2;
+
+        self.slides_count = self.slides.length;
+
+        if (options.pagination) {
+            self.pagination(options.pagination);
+        }
+        self.play();
+    }
+
+    _createClass(Carousel_core, [{
+        key: 'pagination',
+        value: function pagination(pagination_el) {
+
+            var self = this;
+            var counter = 0;
+
+            var $pagination_el = (0, _jquery2.default)(pagination_el);
+
+            for (var i = 0; i < self.slides_count; i++) {
+                $pagination_el.append('<span>' + counter++ + '</span>');
+            }
+
+            $pagination_el.on('click', 'span', function () {
+                self.go_to_index((0, _jquery2.default)(this).index());
+            });
+        }
+    }, {
+        key: 'play',
+        value: function play() {
+
+            var self = this;
+
+            clearInterval(self.play_interval);
+
+            self.play_interval = setInterval(function () {
+
+                self.go_to('forward');
+            }, self.interval * 1000);
+        }
+    }, {
+        key: 'stop',
+        value: function stop() {
+            var self = this;
+
+            clearInterval(self.play_interval);
+        }
+    }, {
+        key: 'next',
+        value: function next() {
+            var self = this;
+
+            self.go_to('forward');
+        }
+    }, {
+        key: 'prev',
+        value: function prev() {
+            var self = this;
+
+            self.go_to('backward');
+        }
+    }, {
+        key: 'go_to_index',
+        value: function go_to_index(index) {
+            var self = this;
+
+            self.current_index = index;
+
+            (0, _jquery2.default)('#current-slide').text(self.current_index);
+        }
+    }, {
+        key: 'go_to',
+        value: function go_to(direction) {
+
+            var self = this;
+
+            if (direction == 'forward') {
+
+                if (self.current_index == self.slides.length - 1) {
+                    self.current_index = 0;
+                } else {
+                    self.current_index++;
+                }
+            } else if (direction == 'backward') {
+                if (self.current_index == 0) {
+                    self.current_index = self.slides.length - 1;
+                } else {
+                    self.current_index--;
+                }
+            }
+
+            (0, _jquery2.default)('#current-slide').text(self.current_index);
+        }
+    }]);
+
+    return Carousel_core;
+}();
+
+var carousel_core = new Carousel_core({
+    pagination: '.pagination'
+});
+
+(0, _jquery2.default)('#stop-btn').on('click', function () {
+    carousel_core.stop();
+});
+
+(0, _jquery2.default)('#play-btn').on('click', function () {
+    carousel_core.play();
+});
+
+(0, _jquery2.default)('#next-btn').on('click', function () {
+    carousel_core.next();
+});
+
+(0, _jquery2.default)('#prev-btn').on('click', function () {
+    carousel_core.prev();
+});
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10322,120 +10469,6 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _jquery = __webpack_require__(0);
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// import animatedHeadline from 'animated_headline';
-// import {TweenMax} from "gsap";
-
-var Carousel_core = function () {
-    function Carousel_core() {
-        _classCallCheck(this, Carousel_core);
-
-        var self = this;
-
-        self.slides = ['slide', 'slide', 'slide', 'slide'];
-        self.current_index = 0;
-        self.play_interval;
-        self.interval = 2;
-
-        self.play();
-    }
-
-    _createClass(Carousel_core, [{
-        key: 'play',
-        value: function play() {
-
-            var self = this;
-
-            clearInterval(self.play_interval);
-
-            self.play_interval = setInterval(function () {
-
-                self.go_to('forward');
-            }, self.interval * 1000);
-        }
-    }, {
-        key: 'stop',
-        value: function stop() {
-            var self = this;
-
-            clearInterval(self.play_interval);
-        }
-    }, {
-        key: 'next',
-        value: function next() {
-            var self = this;
-
-            self.go_to('forward');
-        }
-    }, {
-        key: 'prev',
-        value: function prev() {
-            var self = this;
-
-            self.go_to('backward');
-        }
-    }, {
-        key: 'go_to',
-        value: function go_to(direction) {
-
-            var self = this;
-
-            if (direction == 'forward') {
-
-                if (self.current_index == self.slides.length - 1) {
-                    self.current_index = 0;
-                } else {
-                    self.current_index++;
-                }
-            } else if (direction == 'backward') {
-                if (self.current_index == 0) {
-                    self.current_index = self.slides.length - 1;
-                } else {
-                    self.current_index--;
-                }
-            }
-
-            (0, _jquery2.default)('#current-slide').text(self.current_index);
-        }
-    }]);
-
-    return Carousel_core;
-}();
-
-var carousel_core = new Carousel_core();
-
-(0, _jquery2.default)('#stop-btn').on('click', function () {
-    carousel_core.stop();
-});
-
-(0, _jquery2.default)('#play-btn').on('click', function () {
-    carousel_core.play();
-});
-
-(0, _jquery2.default)('#next-btn').on('click', function () {
-    carousel_core.next();
-});
-
-(0, _jquery2.default)('#prev-btn').on('click', function () {
-    carousel_core.prev();
-});
 
 /***/ })
 /******/ ]);
